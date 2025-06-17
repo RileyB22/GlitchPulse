@@ -5,6 +5,8 @@ using TMPro;
 
 public class MasterInfo : MonoBehaviour
 {
+
+
     // static means other stuffs can interact w/ it
     public static int coinCount = 0;
     [SerializeField] GameObject coinDisplay;
