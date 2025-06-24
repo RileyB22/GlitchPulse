@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement; 
 
 public class Obstacels : MonoBehaviour
 {
+   
 
     public bool isBug, isWall, isFragment, isSpike;
     public PlayerMovement playerMovement;
@@ -16,6 +18,17 @@ public class Obstacels : MonoBehaviour
     public float leftLimit = -5.5f;
 
     private Vector3 startPosition;
+
+    [Tooltip("How long to wait before restarting the game")]
+    public float waitTime = 3.0f;
+
+    public Animator animator;
+
+    public GameObject Player;
+
+
+    
+
 
     // Start is called before the first frame update
     void Start()
@@ -36,28 +49,51 @@ public class Obstacels : MonoBehaviour
 
     }
 
+
     private void OnTriggerEnter(Collider other)
     {
-        if (isBug)
+        if (other.CompareTag("Player"))
         {
-            playerMovement.SlowDown();
-            print("slow");
-            this.gameObject.SetActive(false);
-        }
-        if (isWall)
-        {
-            death();
-        }
-        if (isFragment || isSpike)
-        {
-            death();
 
+            if (isBug)
+            {
+                playerMovement.SlowDown();
+                print("slow");
+                this.gameObject.SetActive(false);
+            }
+            if (isWall)
+            {
+                death();
+            }
+            if (isFragment || isSpike)
+            {
+                death();
+
+            }
         }
     }
     public void death()
     {
-        // stop movement   HOW DO I GET HS FROM THIS?
-      paused = true;
-      Time.timeScale = (paused) ? 0 : 1;
+
+        playerMovement.isDead = true;
+
+        animator.SetTrigger("DeathAnim");
+       // Time.timeScale = (paused) ? 0 : 1;
+        // Destroy the player
+        // Call the function ResetGame after waitTime has passed
+       
+        //or restart panel
+        Invoke("ResetGame", waitTime);
+    }
+
+    /// <summary>
+    /// restart level
+    /// </summary>
+    private void ResetGame()
+    {
+        // Get the current level's name
+        string sceneName = SceneManager.GetActiveScene().name;
+        // Restarts the current level
+        SceneManager.LoadScene(sceneName);
     }
 }
