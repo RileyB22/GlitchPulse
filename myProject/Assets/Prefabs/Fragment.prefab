@@ -28,9 +28,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7171313973676723065}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.0028432931, y: -0.9999953, z: 0.00066515343, w: 0.00094381324}
+  m_LocalRotation: {x: -0.0028442177, y: -0.9999953, z: 0.0006659305, w: 0.00094074314}
   m_LocalPosition: {x: -0.59, y: 2.15, z: -14.11}
-  m_LocalScale: {x: 1.4548, y: 0.6640344, z: 0.011061254}
+  m_LocalScale: {x: 1.4547998, y: 0.6640344, z: 0.011061255}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -127,5 +127,9 @@ MonoBehaviour:
   rightLimit: 5.5
   leftLimit: -5.5
   waitTime: 2
+  audioSource: {fileID: 0}
+  bugSound: {fileID: 8300000, guid: c5e2a73ad4706440f93bf05df0b465fe, type: 3}
+  errorSound: {fileID: 8300000, guid: b9eff218e132a4e76be78840eca96fb2, type: 3}
+  wallSound: {fileID: 8300000, guid: cabfae866cab347928b74b7d0ca6bfa9, type: 3}
   animator: {fileID: 0}
   Player: {fileID: 0}

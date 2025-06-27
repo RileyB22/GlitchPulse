@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8887899412352398736}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -8.7, y: -0.76, z: -4.79}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -131,6 +131,10 @@ MonoBehaviour:
   rightLimit: 5.5
   leftLimit: -5.5
   waitTime: 2
+  audioSource: {fileID: 0}
+  bugSound: {fileID: 8300000, guid: c5e2a73ad4706440f93bf05df0b465fe, type: 3}
+  errorSound: {fileID: 8300000, guid: b9eff218e132a4e76be78840eca96fb2, type: 3}
+  wallSound: {fileID: 8300000, guid: cabfae866cab347928b74b7d0ca6bfa9, type: 3}
   animator: {fileID: 0}
   Player: {fileID: 0}
 --- !u!64 &7502014488779596710
@@ -148,7 +152,7 @@ MeshCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5

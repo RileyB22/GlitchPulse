@@ -27,7 +27,7 @@ public class SegmentGenerator : MonoBehaviour
     void Start()
     {
         playerMovement = FindObjectOfType<PlayerMovement>();
-        
+      //  Destroy(gameObject, 15f);
 
     }
 
@@ -51,8 +51,8 @@ public class SegmentGenerator : MonoBehaviour
         GameObject newSegment = Instantiate(segment, new Vector3(0, 0, zPos), Quaternion.identity);
         zPos += 50;
         // Try to spawn obstacles based on score
-        float getScore = playerMovement.score;
-        UpdateObstaclePool(getScore);
+       // float getScore = playerMovement.score;
+        UpdateObstaclePool(playerMovement.score);
         SpawnObstacles(newSegment.transform);
 
         yield return new WaitForSeconds(3);
@@ -70,23 +70,32 @@ public class SegmentGenerator : MonoBehaviour
         //Destroy(transform.parent.gameObject, destroyTime);
       
     }
-    void UpdateObstaclePool(float score)
+    void UpdateObstaclePool( float getScore)
     {
+        getScore = playerMovement.score;
         activeObstacles.Clear();
-        if (score >= 0) activeObstacles.Add(obstaclePrefabs[0]);
-        if (score >= 50 && obstaclePrefabs.Length > 1) activeObstacles.Add(obstaclePrefabs[1]);
-        if (score >= 100 && obstaclePrefabs.Length > 2) activeObstacles.Add(obstaclePrefabs[2]);
-        if (score >= 150 && obstaclePrefabs.Length > 3) activeObstacles.Add(obstaclePrefabs[3]);
+        if (getScore >= 0) activeObstacles.Add(obstaclePrefabs[0]);
+        if (getScore >= 15 && obstaclePrefabs.Length > 1) activeObstacles.Add(obstaclePrefabs[1]);
+        if (getScore >= 40 && obstaclePrefabs.Length > 2) activeObstacles.Add(obstaclePrefabs[2]);
+        if (getScore >= 50 && obstaclePrefabs.Length > 3) activeObstacles.Add(obstaclePrefabs[3]);
+        if (getScore >= 70 && obstaclePrefabs.Length > 4) activeObstacles.Add(obstaclePrefabs[4]);
+
     }
 
     void SpawnObstacles(Transform parent)
     {
-        foreach (Transform point in spawnPoints)
+        Transform[] localSpawnPoints = parent.GetComponentsInChildren<Transform>();
+        foreach (Transform point in localSpawnPoints)
         {
-            if (Random.value > 0.5f && activeObstacles.Count > 0)
+            if (point.CompareTag("SpawnPoint") && activeObstacles.Count > 0)
             {
-                int index = Random.Range(0, activeObstacles.Count);
-                Instantiate(activeObstacles[index], point.position, point.rotation, parent);
+                // 50% spawn chance
+                if (Random.value > 0.5f)
+                {
+                    int index = Random.Range(0, activeObstacles.Count);
+                    Instantiate(activeObstacles[index], point.position, point.rotation, parent);
+                }
+               
             }
         }
     }

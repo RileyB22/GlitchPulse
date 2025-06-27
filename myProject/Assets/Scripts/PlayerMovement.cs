@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody rb;
     public bool isDead = false;
 
+    public bool isInvincible = false;
     public Animator animator;
 
     [Header("Object References")]

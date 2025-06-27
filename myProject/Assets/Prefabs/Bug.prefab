@@ -131,6 +131,10 @@ MonoBehaviour:
   rightLimit: 5.5
   leftLimit: -5.5
   waitTime: 2
+  audioSource: {fileID: 0}
+  bugSound: {fileID: 8300000, guid: c5e2a73ad4706440f93bf05df0b465fe, type: 3}
+  errorSound: {fileID: 8300000, guid: b9eff218e132a4e76be78840eca96fb2, type: 3}
+  wallSound: {fileID: 8300000, guid: cabfae866cab347928b74b7d0ca6bfa9, type: 3}
   animator: {fileID: 0}
   Player: {fileID: 0}
 --- !u!65 &3368673176162286108

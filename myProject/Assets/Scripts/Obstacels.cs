@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement; 
+using UnityEngine.SceneManagement;
+using UnityEngine.Rendering;
+//using UnityEngine.Rendering.Universal;
+
 
 public class Obstacels : MonoBehaviour
 {
    
 
-    public bool isBug, isWall, isFragment, isSpike;
+    public bool isBug, isWall, isFragment, isSpike, isGlitch;
     public PlayerMovement playerMovement;
 
     public static bool paused;
@@ -17,17 +20,29 @@ public class Obstacels : MonoBehaviour
     public float rightLimit = 5.5f;
     public float leftLimit = -5.5f;
 
+   // private float glitchDelay = 3f;
     private Vector3 startPosition;
 
     [Tooltip("How long to wait before restarting the game")]
     public float waitTime = 3.0f;
+
+    public AudioSource audioSource;
+    public AudioClip bugSound;
+    public AudioClip errorSound;
+    public AudioClip wallSound;
+
+    // public bool isInvon = false;
+    //public GameObject glitchVolume;
+   // public Volume postProcessingVolume;
+
 
     public Animator animator;
 
     public GameObject Player;
 
 
-    
+
+
 
 
     // Start is called before the first frame update
@@ -35,6 +50,15 @@ public class Obstacels : MonoBehaviour
     {
         playerMovement = FindObjectOfType<PlayerMovement>();
         startPosition = transform.position;
+        GetComponent<Renderer>().enabled = true;
+
+
+
+        /*if (postProcessingVolume.profile.TryGet(out vignette))
+        {
+            vignette.active = true;
+        }*/
+        //Rigidbody rb = other.GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -54,24 +78,64 @@ public class Obstacels : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            PlayerMovement player = other.GetComponent<PlayerMovement>();
+            if (player != null && !player.isInvincible)
+            {
+                if (isBug)
+                {
+                    playerMovement.SlowDown();
+                    print("slow");
+                    audioSource.PlayOneShot(bugSound);
+                    this.gameObject.SetActive(false);
+                }
+                if (isWall)
+                {
+                    audioSource.PlayOneShot(wallSound);
+                    death();
+                }
+                if (isFragment || isSpike)
+                {
+                    audioSource.PlayOneShot(errorSound);
+                    death();
 
-            if (isBug)
-            {
-                playerMovement.SlowDown();
-                print("slow");
-                this.gameObject.SetActive(false);
-            }
-            if (isWall)
-            {
-                death();
-            }
-            if (isFragment || isSpike)
-            {
-                death();
+                }
+                if (isGlitch)
+                {
+                    if (other.CompareTag("Player"))
+                    {
+                        // Collider playerCol = other.GetComponent<Collider>();
+
+                       // isInvon = true;
+                        // playerCol.enabled = false;
+                        player.isInvincible = true;
+                        //glitchVolume.enabled = true;
+                       // vignetteVolume.weight = Mathf.Lerp(0f, 1f, t);
+
+                        StartCoroutine(EndInvincibility(player, 5f));
+
+                        //audioSource.PlayOneShot(wallSound);
+                        print("glitch");
+                        //this.gameObject.SetActive(false);
+                       // this.enabled == true
+                        GetComponent<Renderer>().enabled = false;
+                    }
+           
+                }
 
             }
         }
     }
+    IEnumerator EndInvincibility(PlayerMovement player, float delay)
+    {
+        
+        yield return new WaitForSeconds(delay);
+       // glitchVolume.enabled = false;
+
+        //col.enabled = true;
+        player.isInvincible = false;
+        print("Invinc end");
+    }
+
     public void death()
     {
 
